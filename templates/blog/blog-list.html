@@ -99,7 +99,7 @@
 
 											{% for cat in post.categories.all %}
 
-												<li><a href="#">{{cat}}</a></li>
+												<li><a href="#">{{cat.name}}{% if not forloop.last %},{% endif %}</a></li>
 					
 											{% endfor %}
 
@@ -115,7 +115,7 @@
 										<div class="feature-img">
 											<img class="img-fluid" src="{{post.image.url}}" alt="">
 										</div>
-										<a class="posts-title" href="blog-single.html"><h3>{{post.title}}</h3></a>
+										<a class="posts-title" href="{% url "blog:blog-detail" slug=post.slug %}"><h3>{{post.title}}</h3></a>
 										<p class="excert">{{post.content | truncatewords:50 }}</p>
 										<a href="{% url 'blog:blog-detail' slug=post.slug %}" class="primary-btn">View More</a>
 									</div>
