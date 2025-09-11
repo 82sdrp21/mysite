@@ -139,7 +139,7 @@
 									{% for page in page_obj.paginator.page_range %}
 		                            
 		                            	<li class="page-item {% if page_obj.number == page %}active{% endif %}">
-											<a href="{% if not page_obj.number == page %}?page={{page}}{% endif %}" class="page-link">{{page}}</a>
+											<a href="{% if not page_obj.number == page %}?{% if request.GET.s %}s={{request.GET.s}}&{% endif %}page={{page}}{% endif %}" class="page-link">{{page}}</a>
 										</li>
 
 									{% endfor %}

@@ -24,8 +24,7 @@ class AuthorListView(BlogListView):
         return Post.objects.filter(author__username__exact=self.kwargs.get('username'), status=1)
     
 class SearchListView(BlogListView):
-    paginate_by = None
-    
+
     def get_queryset(self, *args, **kwargs):
 
         if search_word := self.request.GET.get('s'):
