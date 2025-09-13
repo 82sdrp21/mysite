@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
-from home.models import Contact, NewsLetter
+from home.models import NewsLetter
 from django.contrib.messages.views import SuccessMessageMixin
 from blog.models import Post
+from home.forms import ContactForm
 
 class IndexView(TemplateView):
     template_name = 'home/index.html'
@@ -21,8 +22,8 @@ class AboutView(TemplateView):
 
 class ContactView(SuccessMessageMixin, CreateView):
     template_name = 'home/contact.html'
-    model = Contact
-    fields = ['name', 'email', 'subject', 'message',]
+    form_class = ContactForm
+    # fields = ['name', 'email', 'subject', 'message', 'captcha',]
     success_url = reverse_lazy('home:contact_page')
     success_message = 'Your ticket is successfully submitted!'
     

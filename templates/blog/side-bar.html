@@ -52,11 +52,25 @@
                     <li>
                         <a href="{% url 'blog:blog-list-category-filtered' cat=category.name %}" class="d-flex justify-content-between">
                             <p>{{category.name}}</p>
-                            <p>{{category.posts.count}}</p>
+                            <p>{{category.posts.count}} {{request.resolver_match.url_name}} </p>
                         </a>
                     </li>
                 {% endfor %}															
             </ul>
-        </div>								
+        </div>
+        
+        {% if tags %}
+
+        <div class="single-sidebar-widget tag-cloud-widget">
+            <h4 class="tagcloud-title">Post Tags</h4>
+            <ul>
+                {% for tag in tags %}
+                <li><a href="{% url "blog:blog-list-tag-filtered" tag=tag.name %}">{{tag.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% endif %}
+
     </div>
 </div>

@@ -32,6 +32,11 @@ class SearchListView(BlogListView):
             return posts
         else:
             raise Http404
+        
+class TagsListView(BlogListView):
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects.filter(tags__name__in=[self.kwargs.get('tag')])
 
 
 class BlogDetailView(DetailView):
