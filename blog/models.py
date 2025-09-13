@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.urls import reverse
+from taggit.managers import TaggableManager
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -17,6 +19,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     image = models.ImageField(upload_to='media', blank=True, null=True)
+    tags = TaggableManager()
     categories = models.ManyToManyField(Category, related_name='posts')
     views = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
@@ -37,4 +40,8 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super().save(args, kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("blog:blog-detail", kwargs={"slug": self.slug})
+    
 

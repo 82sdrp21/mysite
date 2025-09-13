@@ -3,9 +3,18 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
 from home.models import Contact, NewsLetter
 from django.contrib.messages.views import SuccessMessageMixin
+from blog.models import Post
 
 class IndexView(TemplateView):
     template_name = 'home/index.html'
+    
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['posts'] = Post.objects.filter(status=1).order_by('-updated_date')[:4]
+
+        return context
 
 class AboutView(TemplateView):
     template_name = 'home/about.html'

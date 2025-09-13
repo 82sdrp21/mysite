@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django_cleanup.apps.CleanupConfig',
+    'robots',
+    'taggit',
+    'debug_toolbar',
 
     # My apps
 
@@ -53,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -134,3 +141,17 @@ MEDIA_ROOT = 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Crawlers configurations
+
+SITE_ID = 2
+
+ROBOTS_USE_HOST = False
+ROBOTS_USE_SITEMAP = False
+
+# Django debugging toolbar 
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
