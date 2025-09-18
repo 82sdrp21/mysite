@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from django.urls import reverse
 
@@ -37,4 +37,20 @@ def LogoutView(request):
 
 
 def RegisterView(request):
-    return render(request, 'accounts/register.html')
+    if not request.user.is_authenticated:
+
+        if request.method == "POST":
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("accounts:login")
+            else:
+                messages.error(request, 'Please try again!')
+
+        form = UserCreationForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'accounts/register.html', context=context)
+    else:
+        return redirect('home:home_page')
