@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Login {% endblock %}
+
+
+{% block content %}
+
+
+<!-- start banner Area -->
+	<section class="relative about-banner">	
+		<div class="overlay overlay-bg"></div>
+		<div class="container">				
+			<div class="row d-flex align-items-center justify-content-center">
+				<div class="about-content col-lg-12">
+					<h1 class="text-white">
+						Login			
+					</h1>	
+					<p class="text-white link-nav"><a href="index.html">Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="contact.html"> Login</a></p>
+				</div>	
+			</div>
+		</div>
+	</section>
+	<!-- End banner Area -->				  
+
+	<!-- Start contact-page Area -->
+	<section class="contact-page-area section-gap">
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-lg-12" >
+					<form class="form-area contact-form" action="{% url "accounts:login" %}" method="post">
+						{% csrf_token %}
+						<div class="row" style="float: center;">	
+							<div class="col-md-6 form-group" >
+
+								<input name="username" placeholder="Username"  class="common-input mb-20 form-control" required="" type="text">
+							
+								<input name="password" placeholder="Password" class="common-input mb-20 form-control" required="" type="password">								
+
+             				   <button class="genric-btn primary" type="submit" style="float: center;">Login</button>											
+
+							</div>
+							
+						</div>
+					</form>	
+				</div>
+
+				{% if messages %}
+					{% for message in messages %}
+					<div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+					{% endfor %}
+				{% endif %}
+
+				{% if form.errors %}
+					<div class="alert alert-error">
+					<h4>Please fix the following errors</h4>
+					<ul>
+						{% for field in form %}
+						{% if field.errors %}
+							{% for error in field.errors %}
+							<li><a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
+							{% endfor %}
+						{% endif %}
+						{% endfor %}
+					</ul>
+					{% if form.non_field_errors %}
+						{{ form.non_field_errors }}
+					{% endif %}
+					</div>
+				{% endif %}
+
+			</div>
+		</div>	
+	</section>
+	<!-- End contact-page Area -->
+
+
+{% endblock %}
+
