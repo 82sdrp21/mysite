@@ -11,4 +11,13 @@ class PostAdmin(SummernoteModelAdmin):
     list_editable = ['status',]
     summernote_fields = ['content',]
 
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    date_hierarchy = 'updated_date'
+    search_fields = ['post', 'subject', 'name',]
+    list_display = ['post', 'subject', 'name', 'approved',]
+    list_editable = ['approved']
+    list_filter = ['post', 'subject']
+
 admin.site.register(Category)

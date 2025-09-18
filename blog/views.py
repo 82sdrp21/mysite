@@ -1,7 +1,9 @@
-from django.shortcuts import get_object_or_404, get_list_or_404
-from django.views.generic import ListView, DetailView
-from blog.models import Post, Category
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import ListView
+from blog.models import Post, Comment
 from django.http import Http404
+from blog.forms import CommentForm
+from django.contrib import messages
 
 class BlogListView(ListView):
 
@@ -11,13 +13,11 @@ class BlogListView(ListView):
     context_object_name = 'posts'
     paginate_by = 2
     
-
 class CategoryListView(BlogListView):
     
     def get_queryset(self, *args, **kwargs):
         return Post.objects.filter(categories__name=self.kwargs.get('cat'), status=1)
         
-
 class AuthorListView(BlogListView):
     
     def get_queryset(self, *args, **kwargs):
@@ -39,7 +39,27 @@ class TagsListView(BlogListView):
         return Post.objects.filter(tags__name__in=[self.kwargs.get('tag')])
 
 
-class BlogDetailView(DetailView):
-    template_name = 'blog/blog-detail.html'
-    model = Post
-    context_object_name = 'post'
+def BlogDetailView(request, slug):
+
+    post = get_object_or_404(Post, slug=slug, status=1)
+
+    if request.method == "POST":
+
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+            messages.add_message(request, messages.SUCCESS,'Your comment received successfully...')
+
+        else:
+            messages.add_message(request, messages.ERROR,'Your commnet did not submited!')
+            
+    form = CommentForm()
+    context = {
+        'post': post,
+        'form': form,
+    }
+    return render(request, 'blog/blog-detail.html', context)
+
+

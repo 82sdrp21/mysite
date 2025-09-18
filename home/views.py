@@ -23,7 +23,6 @@ class AboutView(TemplateView):
 class ContactView(SuccessMessageMixin, CreateView):
     template_name = 'home/contact.html'
     form_class = ContactForm
-    # fields = ['name', 'email', 'subject', 'message', 'captcha',]
     success_url = reverse_lazy('home:contact_page')
     success_message = 'Your ticket is successfully submitted!'
     
