@@ -36,9 +36,13 @@
 
 								<input name="username" placeholder="Username"  class="common-input mb-20 form-control" required="" type="text">
 							
-								<input name="password" placeholder="Password" class="common-input mb-20 form-control" required="" type="password">								
+								<input name="password" placeholder="Password" class="common-input mb-20 form-control" required="" type="password">	
+								
+								{% if request.GET.next %}
+									<input name='next' value="{{request.GET.next}}" type="hidden">
+								{% endif %}
 
-             				   <button class="genric-btn primary" type="submit" style="float: center;">Login</button>											
+             				    <button class="genric-btn primary" type="submit" style="float: center;">Login</button>											
 
 							</div>
 							

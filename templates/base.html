@@ -49,7 +49,7 @@
 						<div class="row align-items-center">
 							<div class="col-lg-6 col-sm-6 col-6 header-top-left">
 								<ul>
-									<li><a href="{% url "accounts:login" %}">Login</a></li>
+									<li><a href="{% url "accounts:login" %}?next={{ request.path }}">Login</a></li>
 									<li><a href="{% url "accounts:register" %}">Register</a></li>
 								</ul>
 							</div>

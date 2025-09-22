@@ -8,8 +8,9 @@ from django.urls import reverse
 
 
 def LoginView(request):
-
+    previous_page_url = request.GET.get('next')
     if request.method == "POST":
+        previous_page_url = request.POST.get('next')
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -17,7 +18,7 @@ def LoginView(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home:home_page')
+                return redirect(previous_page_url)
 
     if request.user.is_authenticated:
         return redirect('home:home_page')
@@ -29,10 +30,15 @@ def LoginView(request):
     return render(request, 'accounts/login.html', context)
 
 
-@login_required
+
 def LogoutView(request):
-    logout(request)
-    return redirect('home:home_page')
+    if request.user.is_authenticated:
+        app_name = request.resolver_match.app_name
+        url_name = request.resolver_match.url_name
+        logout(request)
+        return redirect(reverse('home:home_page'))
+    else:
+        return redirect(reverse('accounts:login'))
 
 
 
